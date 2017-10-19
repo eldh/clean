@@ -1,0 +1,6 @@
+@import '../styles/vars';
+.component-view {
+  border-top: $border-width $border-color solid;
+  margin: $base-unit * 3 0 0;
+  padding: $base-unit * 3 0 0;
+}

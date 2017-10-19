@@ -1,0 +1,5 @@
+@import '../styles/vars';
+.layout {
+  margin: $base-unit * 5;
+  max-width: $content-width;
+}

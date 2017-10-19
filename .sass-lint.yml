@@ -1,0 +1,84 @@
+options:
+  merge-default-rules: true
+  formatter: stylish
+files:
+  include: '{app,app/scripts/_layout,components/**,common/styles/**,common/views/**,webpunch/styles/**}/*.scss'
+  # Ignoring files with '#{$string-interpolation}'
+  ignore:
+    - 'common/styles/general/_normalize.scss'
+    - 'common/styles/general/_print.scss'
+    - 'common/styles/general/_reset.scss'
+    - 'common/styles/generated/props.scss'
+    - 'common/styles/components/_popup.scss'
+    - 'common/styles/components/_masonry.scss'
+    - 'common/styles/components/_modal.scss'
+    - 'common/styles/components/_sticky.scss'
+    - 'common/styles/components/_tooltip.scss'
+    - 'common/styles/components/_touch.scss'
+    - 'common/styles/objects/_type.scss'
+    - 'common/styles/transitions/_slide-right.scss'
+    - 'components/shift/shift/shift.scss'
+    - 'components/shift/week/schedule-week.scss'
+    - 'components/shift/month/schedule-month.scss'
+    - 'components/shift/punch/punch.scss'
+    - 'webpunch/styles/components/_clock.scss'
+    - 'webpunch/styles/components/_dev-data.scss'
+    - '**/_shame.scss'
+    - 'node_modules/**/*.scss'
+    - 'styleguide/**/*.scss'
+    - '**/_tooltip.scss'
+rules:
+  empty-line-between-blocks:
+    - 2
+    -
+      include: false
+  empty-args:
+    - 2
+    -
+      include: false
+  extends-before-mixins: 2
+  extends-before-declarations: 2
+  mixins-before-declarations: 0
+  clean-import-paths:
+    - 0
+    -
+      leading-underscore: false
+      filename-extension: false
+  placeholder-in-extend: 2
+  leading-zero:
+    - 2
+    -
+      include: false
+  # brace-style:
+  #   - 2
+  #   -
+  #     allow-single-line: false
+  #     style: stroustrup
+  nesting-depth:
+    - 2
+    -
+      max-depth: 2
+  border-zero:
+    - 2
+    -
+      convention: none
+  no-warn: 1
+  no-color-keywords: 2
+  no-debug: 1
+  no-ids: 2
+  no-duplicate-properties: 2
+  no-empty-rulesets: 2
+  no-extends: 2
+  no-important: 2
+  no-color-literals: 0
+  one-declaration-per-line: 2
+  property-sort-order: 0
+  hex-notation:
+    - 2
+    -
+      style: uppercase
+  indentation:
+    - 2
+    -
+      size: 2
+  variable-for-property: 0

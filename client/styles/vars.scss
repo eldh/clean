@@ -1,0 +1,55 @@
+$body-bg-color: #FFF;
+$bg-color: #FFF;
+$brand-color: #29BF96;
+
+$border-color: #EAEAEA;
+$link-color: darken($brand-color, 10%);
+
+$font: -apple-system, -apple-system-body, sans-serif;
+$h-font: -apple-system-headline, -apple-system, sans-serif;
+$font-color: #333;
+$base-font-size: 18px;
+$base-line-height: 20px;
+
+$h1-size: 30px;
+$h2-size: 24px;
+$small-size: 13px;
+$tiny-size: 12px;
+
+$normal: 400;
+$bold: 700;
+
+$line-height-ratio: $base-line-height / $base-font-size;
+
+$base-unit: 20px;
+$half-unit: 10px;
+$radius: 6px;
+$big-radius: 12px;
+
+$content-width: 800px;
+
+$button-color: lighten($brand-color, 5%);
+$button-font-color: #FFF;
+$button-border-color: $brand-color;
+$button-disabled-color: #F9F9F9;
+$button-disabled-border-color: #EEE;
+$button-disabled-font-color: #CCC;
+
+$action-color: lighten($brand-color, 5%);
+
+$checkbox-border-color: $brand-color;
+$checkbox-disabled-border-color: rgba($checkbox-border-color, .5);
+
+
+$input-border-color: #EEE;
+
+$quiet-color: #A9A9A9;
+$icon-quiet-color: #BFBBBB;
+
+$checkbox-color: transparent;
+$checkbox-check-color: $brand-color;
+
+$icon-size: 13px;
+$border-width: 1px;
+
+$transition: all .2s ease;

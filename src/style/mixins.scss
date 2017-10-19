@@ -1,0 +1,298 @@
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+@mixin scale ($size) {
+  @include transform(scale(#{$size}));
+}
+@mixin translate ($x, $y) {
+  @include transform(translate($x, $y));
+}
+@mixin opacity ($value: .5) {
+  opacity: $value;
+  filter: alpha(opacity= $value * 100);
+  zoom: 1;
+}
+@mixin triangle($direction, $color, $size) {
+
+  @if $direction == 'left' {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  }
+  @else if $direction == 'right' {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  }
+  @else if $direction == 'up' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  }
+  @else if $direction == 'down' {
+    border-right: $size solid transparent;
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  height: 0;
+  width: 0;
+}
+@mixin font-size($font-size, $line-height: true) {
+  font-size: ($font-size / $base-font-size)*1rem;
+  @if $line-height == true {
+    line-height: $font-size * ceil($font-size / $base-line-height) * ($base-line-height / $font-size);
+  }
+}
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+@mixin arrow($arrow-edge, $arrow-location, $arrow-color, $border-color: $arrow-color) {
+  $arrow-size:            $half-unit !default;
+  $arrow-border:          $container-border-width !default;
+  $border:                $arrow-size !default;
+  $arrow:                 $arrow-size - $arrow-border * 1 !default;
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    border-collapse: separate;
+  }
+  &:before {
+    @if $arrow-border == 0px {
+      border: none;
+    } @else {
+      border: $border solid transparent;
+    }
+  }
+  &:after {
+    border: $arrow solid transparent;
+  }
+  @if $arrow-edge == top {
+    &:before,
+    &:after {
+      bottom: 100%;
+    }
+    &:before {
+      border-bottom-color: $border-color;
+    }
+    &:after {
+      border-bottom-color: $arrow-color;
+    }
+
+    @if $arrow-location == left {
+      &:before {
+        left: $arrow;
+      }
+      &:after {
+        left: $border;
+      }
+    }
+
+    @if $arrow-location == center {
+      &:before,
+      &:after {
+        left: 50%;
+        margin-left: -$border;
+      }
+      &:after {
+        margin-left: -$arrow;
+      }
+    }
+
+    @if $arrow-location == right {
+      &:before {
+        right: $arrow;
+      }
+      &:after {
+        right: $border;
+      }
+    }
+
+  }
+
+  @if $arrow-edge == right {
+    &:before,
+    &:after {
+      left: 100%;
+    }
+    &:before {
+      border-left-color: $border-color;
+    }
+    &:after {
+      border-left-color: $arrow-color;
+    }
+    @if $arrow-location == top {
+      &:before {
+        top: $arrow;
+      }
+      &:after {
+        top: $border;
+      }
+    }
+    @if $arrow-location == center {
+      &:before,
+      &:after {
+        top: 50%;
+        margin-top: -$border;
+      }
+      &:after {
+        margin-top: -$arrow;
+      }
+    }
+    @if $arrow-location == bottom {
+      &:before {
+        bottom: $arrow;
+      }
+      &:after {
+        bottom: $border;
+      }
+    }
+  }
+  @if $arrow-edge == bottom {
+    &:before {
+      bottom: -$base-unit;
+      border-top-color: $border-color;
+    }
+    &:after {
+      border-top-color: $arrow-color;
+      bottom: -$base-unit + 2 * $arrow-border;
+    }
+    @if $arrow-location == left {
+      &:before {
+        left: $arrow;
+      }
+      &:after {
+        left: $border;
+      }
+    }
+    @if $arrow-location == center {
+      &:before,
+      &:after {
+        left: 50%;
+        margin-left: -$border;
+      }
+      &:after {
+        margin-left: -$arrow;
+      }
+    }
+    @if $arrow-location == right {
+      &:before {
+        right: $arrow;
+      }
+      &:after {
+        right: $border;
+      }
+    }
+  }
+
+  @if $arrow-edge == left {
+    &:before {
+      border-right-color: $border-color;
+    }
+    &:after {
+      border-right-color: $arrow-color;
+    }
+
+    @if $arrow-location == top {
+      &:before {
+        top: $arrow;
+      }
+      &:after {
+        top: $border;
+      }
+    }
+
+    @if $arrow-location == center {
+      &:before,
+      &:after {
+        top: 50%;
+        margin-top: -$border;
+      }
+      &:after {
+        margin-top: -$arrow;
+      }
+    }
+
+    @if $arrow-location == bottom {
+      &:before {
+        bottom: $arrow;
+      }
+      &:after {
+        bottom: $border;
+      }
+    }
+
+  }
+
+}
+
+$xs-end:            $s-start - 1px  !default;
+$s-end:              $m-start - 1px  !default;
+$m-end:              $l-start - 1px !default;
+$l-end:              $xl-start - 1px !default;
+
+@mixin media-query($media-query, $maxOrMin: 'max') {
+
+  @if $media-query == xs {
+
+    @media only screen and (#{$maxOrMin}-width: $xs-end) { @content; }
+
+  }
+
+  @if $media-query == s {
+
+    @media only screen and (#{$maxOrMin}-width: $s-end) { @content; }
+
+  }
+
+  @if $media-query == m {
+
+    @media only screen and (#{$maxOrMin}-width: $m-end) { @content; }
+
+  }
+
+  @if $media-query == l {
+
+    @media only screen and (#{$maxOrMin}-width: $l-end) { @content; }
+
+  }
+
+  @if $media-query == xl {
+
+    @media only screen and (min-width: $xl-start) { @content; }
+
+  }
+  @else {
+    @media only screen and (#{$maxOrMin}-width: $media-query) { @content; }
+  }
+}
+@mixin layer {
+  backface-visibility: hidden;
+}
+@mixin touch-scroll {
+  overflow-y: auto;
+  .touch & {
+    overflow-y: scroll; // has to be scroll, not auto
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@mixin tap {
+  .no-touch &:active,
+  .no-touch &:active:hover,
+  &.touch-feedback:hover,
+  &.touch-feedback {
+    @content;
+  }
+}
+@mixin font-size-micro {
+  @include font-size($micro-size);
+  font-weight: $normal;
+}
+@mixin font-size-centi {
+  @include font-size($centi-size);
+  font-weight: $normal;
+}

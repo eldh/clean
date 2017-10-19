@@ -1,0 +1,25 @@
+button {
+	appearance: none;
+	-webkit-appearance: none;
+	border: $border-width $button-border-color solid;
+	background-color: $button-color;
+	border-radius: $radius;
+	outline: none;
+	height: $base-unit * 2;
+	font-weight: $bold;
+	padding-left: $base-unit * 2;
+	padding-right: $base-unit * 2;
+	color: $button-font-color;
+	font-size: $small-size;
+	line-height: $base-unit * 2 - 2 * $border-width;
+	&:focus {
+	}
+	&:active {
+	}
+	&:disabled {
+		color: $button-disabled-font-color;
+		background-color: $button-disabled-color;
+		border-color: $button-disabled-border-color;
+	}
+}
+

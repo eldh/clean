@@ -1,0 +1,278 @@
+@import '../style/vars';
+.button {
+  -webkit-appearance: none;
+  align-content: center;
+  align-items: center;
+  appearance: none;
+  border: none;
+  border-radius: $brand-round;
+  box-shadow: rgba(#000, 0);
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 100%;
+  font-weight: $fat;
+  justify-content: center;
+  line-height: $base-line-height * 2 - 2 * $action-border-width;
+  min-width: $base-unit * 2;
+  padding: 0 $half-unit;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .1s linear, box-shadow .1s linear;
+  white-space: nowrap;
+  @include layer;
+  .no-touch &:hover {
+    text-decoration: none;
+  }
+  &.touch-feedback {
+    transition-duration: 0s;
+  }
+  &:focus {
+    box-shadow: $focus-box-shadow;
+  }
+}
+.button--only-icon .icon--s:only-child,
+.button > .icon--s:only-child { //Buttons with only a small icon inside. Let's treat them differently
+  padding-left: 0;
+  padding-right: 0;
+  width: $base-unit;
+}
+.button--normal,
+.button--primary,
+.button--warning {
+  color: $button-font-color;
+  &.button--selected {
+    box-shadow: 0 0 0 3em rgba(#000, .2) inset;
+  }
+}
+.button--normal {
+  background-color: $button-color;
+  border: $button-border-dark;
+  .no-touch &:hover {
+    background-color: $button-color-light;
+  }
+  &:active,
+  &.touch-feedback {
+    background-color: $button-color-dark;
+  }
+}
+.button--full {
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+}
+.button--s {
+  font-size: $centi-size;
+  line-height: $base-line-height * 1.5;
+  height: $base-line-height * 1.5;
+  padding: 0 $half-unit / 2;
+  min-width: $base-unit * 1.5;
+  &.button--only-icon .icon:only-child,
+  > .icon:only-child {
+    padding-top: ($base-line-height * 1.5 - $icon-size--s) / 2;
+    padding-bottom: ($base-line-height * 1.5 - $icon-size--s) / 2;
+    height: $base-line-height * 1.5;
+  }
+}
+.button--l {
+  @include font-size($h3-size);
+  line-height: $base-line-height * 3 - $action-border-width * 2;
+  height: $base-line-height * 3;
+  padding: 0 $base-unit * 1.25;
+}
+.button--pill {
+  border-radius: $base-unit * 2;
+}
+.button--inline {
+  margin-left: round($half-unit / 2);
+  margin-bottom: $half-unit;
+}
+.button--primary {
+  background-color: $primary-action-color;
+  border: $primary-action-border-dark;
+  .no-touch &:hover {
+    background-color: $primary-action-color-light;
+    border-color: $primary-action-border-color;
+  }
+  &.touch-feedback,
+  &:active {
+    background-color: $primary-action-color-dark;
+  }
+}
+.button--warning {
+  background-color: $warning-color;
+  border: $warning-border-dark;
+  .no-touch &:hover {
+    background-color: $warning-color-light;
+  }
+  &.touch-feedback,
+  &:active {
+    background-color: $warning-color-dark;
+  }
+}
+.button--quiet,
+.button--quiet-warning {
+  background-color: $quiet-action-color;
+  .no-touch &:hover {
+    background-color: $quiet-action-color-light;
+  }
+  &:active,
+  &.touch-feedback {
+    background-color: $quiet-action-active-color;
+  }
+}
+.button--quiet-warning {
+  color: $quiet-warning-font-color;
+  border: $quiet-warning-border;
+  .no-touch &:hover {
+    border-color: $warning-color;
+  }
+}
+.button--quiet {
+  color: $quiet-action-font-color;
+  border: $quiet-action-border;
+  .no-touch &:hover {
+    background-color: $quiet-action-color-light;
+    border-color: $quiet-action-active-border-color;
+  }
+  &.button--selected {
+    color: $quiet-action-selected-font-color;
+    background-color: $quiet-action-selected-color;
+    border-color: $button-border-color;
+  }
+  .no-touch &:hover.button--selected {
+    color: $quiet-action-selected-font-color;
+    background-color: $quiet-action-selected-active-color;
+    border-color: $button-border-color;
+  }
+}
+.button--dark {
+  color: $dark-action-font-color;
+  border: $dark-action-border;
+  background-color: $dark-action-color;
+  .no-touch &:hover {
+    background-color: $dark-action-active-color;
+    border-color: $dark-action-active-border-color;
+  }
+}
+.button--invisible {
+  color: $quiet-action-font-color;
+  border: $quiet-action-border;
+  background-color: transparent;
+  &:active,
+  &.touch-feedback {
+    background-color: $quiet-action-active-color;
+  }
+  .no-touch &:hover {
+    background-color: $quiet-action-color;
+    border-color: $quiet-action-active-border-color;
+  }
+  &.button--selected,
+  .no-touch &:hover.button--selected {
+    color: $quiet-action-selected-font-color;
+    background-color: $quiet-action-selected-color;
+    border-color: $button-border-color;
+  }
+}
+.button--round-icon {
+  height: $base-unit * 1.5;
+  width: $base-unit * 1.5;
+  min-width: $base-unit * 1.5;
+  padding: 0;
+  border-radius: 50%;
+  .icon--s:only-child {
+    height: $base-unit * 1.5 - 2 * $action-border-width;
+    width: $base-unit * 1.5 - 2 * $action-border-width;
+  }
+}
+.button--only-icon {
+  height: $base-unit * 2; // -1 so we can center icons properly
+  width: $base-unit * 2;
+  min-width: $base-unit * 2;
+  padding: 0;
+  .icon--s:only-child {
+    height: $base-unit * 2 - 2 * $action-border-width;
+    width: $base-unit * 2 - 2 * $action-border-width;
+  }
+  .icon--xs:only-child {
+    height: $base-unit * 1.5 - 2 * $action-border-width;
+    width: $base-unit * 1.5 - 2 * $action-border-width;
+    padding: 0;
+  }
+}
+.button--xs {
+  height: $base-unit * 1.5;
+  width: $base-unit * 1.5;
+  min-width: $base-unit * 1.5;
+}
+.button--dropdown {
+  padding-right: $base-unit * 1.5;
+  &:after {
+    position: absolute;
+    right: $half-unit;
+    content: '\00a0\00a0\25BE';
+  }
+}
+.button[disabled],
+.button:disabled,
+.button--disabled,
+.button--loading {
+  cursor: default;
+  &:not(.button--quiet):not(.button--invisible),
+  &.touch-feedback,
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $disabled-color;
+    color: $disabled-font-color;
+    border-color: $disabled-border-color;
+    box-shadow: none;
+  }
+  &.button--quiet {
+    color: $font-color;
+    &.touch-feedback,
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $quiet-action-color;
+      border-color: $quiet-action-border-color;
+      box-shadow: none;
+    }
+  }
+  &.button--invisible {
+    color: $font-color;
+    &.touch-feedback,
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+}
+.button--submit {
+  float: right;
+  align-self: flex-end;
+}
+.button--loading {
+  animation: buttonPulse ease-in-out 1.6s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: alternate;
+  opacity: 1;
+}
+
+@keyframes buttonPulse {
+  0% {
+    opacity: .95;
+  }
+  50% {
+    opacity: .6;
+  }
+  100% {
+    opacity: .95;
+  }
+}
