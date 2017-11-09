@@ -1,77 +1,68 @@
-import React, {createClass, PropTypes, DOM} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 
-const DatepickerMonth = React.createFactory(require('./DatepickerMonth'))
+import DatepickerMonth from './DatepickerMonth'
 
-const { div } = DOM
+export default class DateRangePicker extends React.Component {
+  static propTypes = {
+    timeperiod: PropTypes.object.isRequired,
+    lastSelectableDate: PropTypes.object,
+    firstSelectableDate: PropTypes.object,
+    onTimeperiodChange: PropTypes.func.isRequired,
+    translate: PropTypes.func,
+    allowOpenEnds: PropTypes.bool,
+  }
 
-export default createClass({
+  static defaultProps = {
+    firstSelectableDate: null,
+    translate: str => str,
+    lastSelectableDate: null,
+    allowOpenEnds: true,
+  }
 
-	displayName: 'DateRangePicker',
+  onStartDateSelected = newDate => {
+    return this.onDateSelected(newDate, 'fromDate')
+  }
 
-	propTypes: {
-		timeperiod: PropTypes.object.isRequired,
-		onTimeperiodChange: PropTypes.func.isRequired,
-		translate: PropTypes.func,
-		allowOpenEnds: PropTypes.bool,
-	},
+  onEndDateSelected = newDate => {
+    this.onDateSelected(newDate, 'toDate')
+  }
 
-	getDefaultProps() {
-		return {
-			firstSelectableDate: null,
-			translate: (str) => str,
-			lastSelectableDate: null,
-			allowOpenEnds: true,
-			timeperiod: {
-				fromDate: moment(),
-				toDate: moment('2015-07-01', 'YYYY-MM-DD'),
-			}
-		}
-
-	},
-
-	render() {
-		return div({className: 'datepicker-wrapper daterangepicker'},
-			DatepickerMonth({
-				title: this.props.translate('From'),
-				timeperiod: this.props.timeperiod,
-				firstSelectableDate: this.props.firstSelectableDate,
-				lastSelectableDate: this.props.lastSelectableDate,
-				onDateSelected: this.onStartDateSelected,
-				isFromMonth: true,
-				translate: this.props.translate,
-			}),
-			DatepickerMonth({
-				title: this.props.translate('To'),
-				timeperiod: this.props.timeperiod,
-				firstSelectableDate: this.props.firstSelectableDate,
-				lastSelectableDate: this.props.lastSelectableDate,
-				onDateSelected: this.onEndDateSelected,
-				isFromMonth: false,
-				translate: this.props.translate,
-			}),
-		)
-	},
-
-	onStartDateSelected(newDate) {
-		return this.onDateSelected(newDate, 'fromDate')
-	},
-
-	onEndDateSelected(newDate) {
-		this.onDateSelected(newDate, 'toDate')
-	},
-
-	onDateSelected(newDate, position) {
-		const oldPosition = this.props.timeperiod[position]
-		const selectedDate = moment(newDate)
-		const newPosition = oldPosition && oldPosition.isSame(selectedDate) ?
-			this.props.allowOpenEnds ? null : selectedDate
-			: selectedDate
-		this.props.onTimeperiodChange({
-			...this.props.timeperiod,
-			[position]: newPosition,
-		})
-
-	},
-
-})
+  onDateSelected = (newDate, position) => {
+    const oldPosition = this.props.timeperiod[position]
+    const selectedDate = moment(newDate)
+    const newPosition =
+      oldPosition && oldPosition.isSame(selectedDate)
+        ? this.props.allowOpenEnds ? null : selectedDate
+        : selectedDate
+    this.props.onTimeperiodChange({
+      ...this.props.timeperiod,
+      [position]: newPosition,
+    })
+  }
+  render() {
+    return (
+      <div className="datepicker-wrapper daterangepicker">
+        <DatepickerMonth
+          firstSelectableDate={this.props.firstSelectableDate}
+          isFromMonth
+          lastSelectableDate={this.props.lastSelectableDate}
+          onDateSelected={this.onStartDateSelected}
+          timeperiod={this.props.timeperiod}
+          title={this.props.translate('From')}
+          translate={this.props.translate}
+        />
+        <DatepickerMonth
+          firstSelectableDate={this.props.firstSelectableDate}
+          isFromMonth={false}
+          lastSelectableDate={this.props.lastSelectableDate}
+          onDateSelected={this.onEndDateSelected}
+          timeperiod={this.props.timeperiod}
+          title={this.props.translate('To')}
+          translate={this.props.translate}
+        />
+      </div>
+    )
+  }
+}
