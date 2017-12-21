@@ -1,9 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { css } from 'glamor'
 
 import DatepickerMonth from './DatepickerMonth'
-
+const wrapper = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '580px',
+}
 export default class DateRangePicker extends React.Component {
   static propTypes = {
     timeperiod: PropTypes.object.isRequired,
@@ -33,9 +38,7 @@ export default class DateRangePicker extends React.Component {
     const oldPosition = this.props.timeperiod[position]
     const selectedDate = moment(newDate)
     const newPosition =
-      oldPosition && oldPosition.isSame(selectedDate)
-        ? this.props.allowOpenEnds ? null : selectedDate
-        : selectedDate
+      oldPosition && oldPosition.isSame(selectedDate) ? (this.props.allowOpenEnds ? null : selectedDate) : selectedDate
     this.props.onTimeperiodChange({
       ...this.props.timeperiod,
       [position]: newPosition,
@@ -43,7 +46,7 @@ export default class DateRangePicker extends React.Component {
   }
   render() {
     return (
-      <div className="datepicker-wrapper daterangepicker">
+      <div {...css(wrapper)}>
         <DatepickerMonth
           firstSelectableDate={this.props.firstSelectableDate}
           isFromMonth

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import classnames from 'classnames'
+import { css } from 'glamor'
 
 export default class DatePickerDate extends React.Component {
   static propTypes = {
@@ -10,6 +9,9 @@ export default class DatePickerDate extends React.Component {
     onDateSelected: PropTypes.func.isRequired,
     isFromMonth: PropTypes.bool.isRequired,
     isSingleMonth: PropTypes.bool,
+    firstSelectableDate: PropTypes.object,
+    lastSelectableDate: PropTypes.object,
+    isEmptyPeriod: PropTypes.bool,
     isOtherMonth: PropTypes.bool,
   }
 
@@ -90,19 +92,65 @@ export default class DatePickerDate extends React.Component {
 
   render() {
     const { date } = this.props
-    const classes = classnames({
-      datepicker__date: true,
-      'datepicker__date--selected': this.isSelected(),
-      'datepicker__date--disabled': this.isDisabled(),
-      'datepicker__date--selected-first': this.isFirstSelected(),
-      'datepicker__date--selected-last': this.isLastSelected(),
-      'datepicker__date--active': this.isActive(),
-      'datepicker__date--other-month': this.props.isOtherMonth,
-    })
+
+    const base = {
+      cursor: 'pointer',
+      marginBottom: '5px',
+      fontWeight: '700',
+      width: '40px',
+      height: '40px',
+      lineHeight: '40px',
+      textAlign: 'center',
+      margin: '0',
+      color: '#29BF96',
+      transition: 'all 0.15s cubic-bezier(0.23, 1, 0.32, 1)',
+      ':active, :hover': {
+        outline: 'none',
+        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+      },
+      ':disabled:active, :disabled:hover': { backgroundColor: 'transparent' },
+      ':nth-child(7n)': {
+        borderTopRightRadius: '12px',
+        borderBottomRightRadius: '12px',
+      },
+      ':nth-child(7n-6)': {
+        borderTopLeftRadius: '12px',
+        borderBottomLeftRadius: '12px',
+      },
+    }
+    const selected = {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      borderTop: '0 rgba(0, 0, 0, 0.15) solid',
+      borderBottom: '0 rgba(0, 0, 0, 0.15) solid',
+      ':nth-child(7n)': {
+        borderRight: '0 rgba(0, 0, 0, 0.15) solid',
+      },
+      ':nth-child(7n-6)': {
+        borderLeft: '0 rgba(0, 0, 0, 0.15) solid',
+      },
+      ':active, :hover': {
+        outline: 'none',
+        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+      },
+    }
+    const selected_first = { border: '0 #29BF96 solid' }
+    const selected_last = { border: '0 #29BF96 solid' }
+    const active = { backgroundColor: '#29BF96', color: 'white' }
+    const other_month = { opacity: '.4' }
+    const disabled = { cursor: 'default', color: '#999999' }
+    const not_selected = { borderRadius: '12px' }
 
     return (
       <div
-        className={classes}
+        {...css([
+          base,
+          this.isSelected() ? selected : not_selected,
+          this.isDisabled() && disabled,
+          this.isFirstSelected() && selected_first,
+          this.isLastSelected() && selected_last,
+          this.isActive() && active,
+          this.props.isOtherMonth && other_month,
+        ])}
         data-date={date.format()}
         data-formatted-date={date.format('YYYY-MM-DD')}
         data-touch-feedback
