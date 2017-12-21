@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from 'glamor'
 import moment from 'moment'
 import MonthComponent from './DatepickerMonth'
-import { datepickerWrapper, daterangepicker } from './styles'
-
 // import './datepicker.scss'
 
 export default class DatePicker extends React.Component {
@@ -35,16 +32,14 @@ export default class DatePicker extends React.Component {
 
   render() {
     return (
-      <div {...css(datepickerWrapper)}>
-        <MonthComponent
-          firstSelectableDate={this.props.firstSelectableDate}
-          isSingleMonth
-          lastSelectableDate={this.props.lastSelectableDate}
-          onDateSelected={this.onDateSelected}
-          timeperiod={this.props.timeperiod}
-          translate={this.props.translate}
-        />
-      </div>
+      <MonthComponent
+        firstSelectableDate={this.props.firstSelectableDate}
+        isSingleMonth
+        lastSelectableDate={this.props.lastSelectableDate}
+        onDateSelected={this.onDateSelected}
+        timeperiod={this.props.timeperiod}
+        translate={this.props.translate}
+      />
     )
   }
 }

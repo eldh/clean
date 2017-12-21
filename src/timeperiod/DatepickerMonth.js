@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { range } from 'ramda'
 import { css } from 'glamor'
-
-import classnames from 'classnames'
 import moment from 'moment'
 import DateComponent from './DatepickerDate'
 // import Icon from '../Icon'
@@ -19,6 +17,7 @@ export default class DatePickerMonth extends React.Component {
     isFromMonth: PropTypes.bool,
     isSingleMonth: PropTypes.bool,
     translate: PropTypes.func,
+    title: PropTypes.string,
   }
 
   static defaultProps = {
@@ -65,9 +64,7 @@ export default class DatePickerMonth extends React.Component {
     })
   }
   _getSelectedDateString() {
-    const date = this.props.isFromMonth
-      ? this.props.timeperiod.fromDate
-      : this.props.timeperiod.toDate
+    const date = this.props.isFromMonth ? this.props.timeperiod.fromDate : this.props.timeperiod.toDate
     if (!date) return ''
     if (date.get('year') === moment().get('year')) {
       return date.format && date.format(this.props.translate('MMMM Do'))
@@ -83,9 +80,16 @@ export default class DatePickerMonth extends React.Component {
   }
 
   _getDayLabels() {
+    const daylabel = {
+      fontWeight: '700',
+      width: '40px',
+      height: '40px',
+      lineHeight: '40px',
+      color: '#999999',
+    }
     return range(0, 7).map(i => {
       return (
-        <div className="datepicker__daylabel" key={`${this.props.isFromMonth}-weekday-${i}`}>
+        <div {...css(daylabel)} key={`${this.props.isFromMonth}-weekday-${i}`}>
           {moment()
             .weekday(i)
             .format('dd')}
@@ -182,10 +186,7 @@ export default class DatePickerMonth extends React.Component {
       if (!this.props.timeperiod.toDate) return true
       return this.props.timeperiod.toDate.isBefore(lastOfMonth)
     }
-    return (
-      (this.props.lastSelectableDate && this.props.lastSelectableDate.isBefore(lastOfMonth)) ||
-      false
-    )
+    return (this.props.lastSelectableDate && this.props.lastSelectableDate.isBefore(lastOfMonth)) || false
   }
 
   _hidePreviousMonth() {
@@ -202,8 +203,7 @@ export default class DatePickerMonth extends React.Component {
     if (!this.props.timeperiod.fromDate) return true
 
     return (
-      this.props.timeperiod.fromDate.isAfter(firstOfMonth) ||
-      this.props.timeperiod.fromDate.isSame(firstOfMonth, 'day')
+      this.props.timeperiod.fromDate.isAfter(firstOfMonth) || this.props.timeperiod.fromDate.isSame(firstOfMonth, 'day')
     )
   }
 
@@ -214,25 +214,56 @@ export default class DatePickerMonth extends React.Component {
 
   render() {
     const buttonModifiers = ['quiet', 's']
-    const datepickerClasses = {
-      datepicker: true,
-      'datepicker--start-month': this.props.isFromMonth,
-      'datepicker--end-month': !this.props.isFromMonth,
+
+    const title_selected_date = { paddingTop: '10px' }
+
+    const dates = {
+      display: 'inline-flex',
+      flexFlow: 'row wrap',
     }
-    const nextClasses = {
-      datepicker__next: true,
-      'datepicker__next--disabled': this._hideNextMonth(),
+
+    const month_name = { textAlign: 'center', padding: '5px 0', margin: '0 00' }
+
+    const dateClass = {
+      cursor: 'pointer',
+      marginBottom: '5px',
+      fontWeight: '700',
+      color: '#29BF96',
+      transition: 'all 0.15s cubic-bezier(0.23, 1, 0.32, 1)',
     }
-    const previousClasses = {
-      datepicker__previous: true,
-      'datepicker__previous--disabled': this._hidePreviousMonth(),
+    const date_selected = {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      borderTop: '0 rgba(0, 0, 0, 0.15) solid',
+      borderBottom: '0 rgba(0, 0, 0, 0.15) solid',
     }
+
+    const next = { padding: '0 7px', minWidth: '0' }
+    const previous = { padding: '0 7px', minWidth: '0' }
+    const next_disabled = { cursor: 'default' }
+    const previous_disabled = { cursor: 'default' }
+    const title = {
+      flexDirection: 'row',
+      alignSelf: 'center',
+      lineHeight: '20px',
+      textAlign: 'center',
+      fontWeight: '600',
+    }
+    const title_month = { textTransform: 'uppercase', paddingBottom: '10px' }
+
     return (
-      <div {...css(datepickerClasses)}>
-        <div className="datepicker__title">
-          <span className="datepicker__title-month">{this.props.title || ''}</span>
+      <div
+        {...css({
+          opacity: '1',
+          width: '280px',
+          height: 'auto',
+          paddingBottom: '20px',
+          userSelect: 'none',
+        })}
+      >
+        <div {...css(title)}>
+          <span {...css(title_month)}>{this.props.title || ''}</span>
           <span
-            className="datepicker__title-selected-date link"
+            {...css(title, date_selected, dateClass, title_selected_date)}
             data-test="datepicker-month__selected-date-title"
             data-touch-feedback
             onClick={this.onMonthTitleClicked}
@@ -242,18 +273,24 @@ export default class DatePickerMonth extends React.Component {
             {this._getSelectedDateString()}
           </span>
         </div>
-        <div className="datepicker__head">
+        <div
+          {...css({
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: '5px 0',
+          })}
+        >
           <button
-            className={previousClasses}
+            {...css([previous, this._hidePreviousMonth() && previous_disabled])}
             disabled={this._hidePreviousMonth()}
             modifiers={buttonModifiers}
             onClick={this.onPreviousMonthClicked}
           >
             {/* <Icon className="icon--s icon--quiet-action" name="arrow-left-s" /> */}
           </button>
-          <h4 className="datepicker__month-name">{this._getMonthString()}</h4>
+          <h4 {...css(month_name)}>{this._getMonthString()}</h4>
           <button
-            className={nextClasses}
+            {...css([next, this._hideNextMonth() && next_disabled])}
             disabled={this._hideNextMonth()}
             modifiers={buttonModifiers}
             onClick={this.onNextMonthClicked}
@@ -261,7 +298,7 @@ export default class DatePickerMonth extends React.Component {
             {/* <Icon className="icon--s icon--quiet-action" name="arrow-right-s" /> */}
           </button>
         </div>
-        <div className="datepicker__dates">
+        <div {...css(dates)}>
           {this._getDayLabels()}
           {this._getDates(false)}
         </div>
